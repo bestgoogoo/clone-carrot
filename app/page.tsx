@@ -2,17 +2,14 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-between min-h-screen p-10">
-      <div className="my-auto flex flex-col items-center gap-2 *:font-medium">
+    <div className="flex flex-col items-center justify-between min-h-[94vh]">
+      <div className="my-auto flex flex-col items-center gap-2 ">
         <span className="text-9xl">🥕</span>
-        <h1 className="text-4xl">당근</h1>
-        <h2 className="text-2xl">당근 마켓에 어서오세요!</h2>
+        <h1>당근</h1>
+        <h2>당근 마켓에 어서오세요!</h2>
       </div>
       <div className="flex flex-col items-center gap-2 w-full">
-        <Link
-          className="w-full bg-orange-500 text-white text-center text-lg font-medium py-2.5 rounded-md hover:bg-orange-400 transition-colors"
-          href="/create-account"
-        >
+        <Link className="primary-btn py-2.5 text-lg" href="/create-account">
           시작하기
         </Link>
         <div className="flex gap-2">
