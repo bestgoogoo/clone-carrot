@@ -3,8 +3,8 @@
 import { useFormState } from "react-dom";
 
 import { handleSubmit } from "./actions";
-import FormButton from "@/components/form-btn";
-import FormInput from "@/components/form-input";
+import FormButton from "@/components/Button";
+import FormInput from "@/components/Input";
 import SocialLogIn from "@/components/social-login";
 
 export default function LogIn() {
