@@ -22,6 +22,7 @@ export default function SMSLogIn() {
       <form action={dispatch} className="flex flex-col gap-3">
         {state.token ? (
           <Input
+            key="token"
             name="token"
             type="number"
             placeholder="Verification code"
@@ -29,6 +30,7 @@ export default function SMSLogIn() {
           />
         ) : (
           <Input
+            key="phone"
             name="phone"
             type="text"
             placeholder="Phone number"
