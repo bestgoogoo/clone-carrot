@@ -3,6 +3,7 @@
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import SocialLogIn from "@/components/social-login";
+import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
 import { useFormState } from "react-dom";
 import { createAccount } from "./actions";
 
@@ -20,7 +21,6 @@ export default function CreateAccount() {
           type="text"
           placeholder="Username"
           minLength={4}
-          maxLength={10}
           required
           errors={state?.fieldErrors.username}
         />
@@ -35,7 +35,7 @@ export default function CreateAccount() {
           name="password"
           type="password"
           placeholder="Password"
-          minLength={6}
+          minLength={PASSWORD_MIN_LENGTH}
           required
           errors={state?.fieldErrors.password}
         />
@@ -43,7 +43,7 @@ export default function CreateAccount() {
           name="confirm_password"
           type="password"
           placeholder="Confirm Password"
-          minLength={6}
+          minLength={PASSWORD_MIN_LENGTH}
           required
           errors={state?.fieldErrors.confirm_password}
         />

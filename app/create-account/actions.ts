@@ -1,11 +1,15 @@
 "use server";
 
+import {
+  PASSWORD_MIN_ERROR,
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_REGEX,
+  PASSWORD_REGEX_ERROR,
+} from "@/lib/constants";
 import { z } from "zod";
 
 // (소문자)(대문자)(숫자)(특수기호 !@#$%^&*()) 필수
-const passwordRegex = new RegExp(
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*?[!@#$%^&*()]).+$/
-);
+const passwordRegex = PASSWORD_REGEX;
 
 const checkPassword = ({
   password,
@@ -23,7 +27,6 @@ const formSchema = z
         required_error: "필수 입력 사항",
       })
       .min(4, "4자 이상 작성필요")
-      .max(10, "10자 이하 작성필요")
       .refine(
         (username: string) => username !== "username",
         "username은 사용할 수 없어요"
@@ -31,9 +34,9 @@ const formSchema = z
     email: z.string().email().toLowerCase(),
     password: z
       .string()
-      .min(6)
-      .regex(passwordRegex, "소문자, 대문자, 숫자, 특수문자가 포함되어야 해요"),
-    confirm_password: z.string().min(6),
+      .min(PASSWORD_MIN_LENGTH, PASSWORD_MIN_ERROR)
+      .regex(passwordRegex, PASSWORD_REGEX_ERROR),
+    confirm_password: z.string().min(PASSWORD_MIN_LENGTH),
   })
   .refine(checkPassword, {
     message: "비밀번호가 일치하지 않아요",
@@ -49,7 +52,8 @@ export async function createAccount(preState: any, formData: FormData) {
   };
   const result = formSchema.safeParse(data);
   if (!result.success) {
-    console.log(result.error.flatten().formErrors);
     return result.error.flatten();
+  } else {
+    console.log(result.data);
   }
 }
