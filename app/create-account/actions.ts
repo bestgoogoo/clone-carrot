@@ -8,6 +8,7 @@ import {
 } from "@/lib/constants";
 import db from "@/lib/db";
 
+import bcrypt from "bcrypt";
 import { z } from "zod";
 
 const checkUniqueUsername = async (username: string) => {
@@ -75,6 +76,14 @@ export async function createAccount(preState: any, formData: FormData) {
   if (!result.success) {
     return result.error.flatten();
   } else {
-    console.log(result.data);
+    const hashedPasswrod = await bcrypt.hash(result.data.password, 12);
+    const newUser = await db.user.create({
+      data: {
+        username: result.data.username,
+        email: result.data.email,
+        password: hashedPasswrod,
+      },
+    });
+    console.log(newUser);
   }
 }
