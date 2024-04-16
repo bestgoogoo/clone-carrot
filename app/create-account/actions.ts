@@ -7,10 +7,9 @@ import {
   PASSWORD_REGEX_ERROR,
 } from "@/lib/constants";
 import db from "@/lib/db";
+import getSession from "@/lib/sessions";
 
 import bcrypt from "bcrypt";
-import { cookies } from "next/headers";
-import { getIronSession } from "iron-session";
 import { z } from "zod";
 import { redirect } from "next/navigation";
 
@@ -88,13 +87,9 @@ export async function createAccount(preState: any, formData: FormData) {
       },
       select: { id: true },
     });
-    const cookie = await getIronSession(cookies(), {
-      cookieName: "cool_thing_you_know",
-      password: process.env.COOKIE_PASSWORD!, // ! -> 해당 경로에 존재를 강제함
-    });
-    // @ts-ignore
-    cookie.id = newUser.id;
-    await cookie.save();
+    const session = await getSession();
+    session.id = newUser.id;
+    await session.save();
     redirect("/");
   }
 }
