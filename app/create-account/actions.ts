@@ -90,6 +90,6 @@ export async function createAccount(preState: any, formData: FormData) {
     const session = await getSession();
     session.id = newUser.id;
     await session.save();
-    redirect("/");
+    return redirect("/");
   }
 }
