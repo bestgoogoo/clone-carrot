@@ -9,7 +9,10 @@ import {
 import db from "@/lib/db";
 
 import bcrypt from "bcrypt";
+import { cookies } from "next/headers";
+import { getIronSession } from "iron-session";
 import { z } from "zod";
+import { redirect } from "next/navigation";
 
 const checkUniqueUsername = async (username: string) => {
   const findUser = await db.user.findUnique({
@@ -83,7 +86,15 @@ export async function createAccount(preState: any, formData: FormData) {
         email: result.data.email,
         password: hashedPasswrod,
       },
+      select: { id: true },
     });
-    console.log(newUser);
+    const cookie = await getIronSession(cookies(), {
+      cookieName: "cool_thing_you_know",
+      password: process.env.COOKIE_PASSWORD!, // ! -> 해당 경로에 존재를 강제함
+    });
+    // @ts-ignore
+    cookie.id = newUser.id;
+    await cookie.save();
+    redirect("/");
   }
 }
